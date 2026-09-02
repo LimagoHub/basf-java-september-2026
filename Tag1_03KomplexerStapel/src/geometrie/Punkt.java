@@ -1,4 +1,4 @@
-package de.basf.geometrie;
+package geometrie;
 
 public class Punkt extends Object{
 
