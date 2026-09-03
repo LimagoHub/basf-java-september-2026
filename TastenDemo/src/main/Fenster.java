@@ -5,7 +5,7 @@ import java.awt.event.*;
 
 import static java.awt.event.KeyEvent.*;
 
-public class Fenster extends Frame implements KeyListener, MouseMotionListener {
+public class Fenster extends Frame  {
 
     private static final int SIZE = 500;
     private String message = "Hallo";
@@ -19,8 +19,13 @@ public class Fenster extends Frame implements KeyListener, MouseMotionListener {
     public Fenster() {
         x = y = SIZE /2;
         setSize(SIZE, SIZE);
-        addMouseMotionListener(this);
-        addKeyListener(this);
+        addMouseMotionListener(new MyMouseMotionListener());
+        addKeyListener(new MyKeyListener());
+        addWindowListener(new WindowAdapter(){
+            public void windowClosing(WindowEvent e) {
+                dispose();
+            }
+        });
         setVisible(true);
     }
 
@@ -34,40 +39,42 @@ public class Fenster extends Frame implements KeyListener, MouseMotionListener {
         g.drawRect(x, y, 20, 20);
     }
 
-    @Override
-    public void keyTyped(final KeyEvent e) {
 
+
+
+
+ /*
+
+    private class MyWindowListerer extends WindowAdapter {
+        @Override
+        public void windowClosing(WindowEvent e) {
+            dispose();
+        }
+    }
+*/
+    private class MyKeyListener extends KeyAdapter {
+        @Override
+        public void keyPressed(final KeyEvent e) {
+
+            switch (e.getKeyCode()) {
+                case VK_ESCAPE -> dispose();
+                case VK_RIGHT -> x += 5;
+                case VK_LEFT -> x -= 5;
+                case VK_DOWN -> y += 5;
+                case VK_UP -> y -= 5;
+            }
+
+            message = "Taste";
+            repaint();
+        }
     }
 
-    @Override
-    public void keyPressed(final KeyEvent e) {
-
-       switch (e.getKeyCode()) {
-           case VK_ESCAPE -> dispose();
-           case VK_RIGHT -> x += 5;
-           case VK_LEFT -> x -= 5;
-           case VK_DOWN -> y += 5;
-           case VK_UP -> y -= 5;
-       }
-
-        message = "Taste";
-        repaint();
-    }
-
-    @Override
-    public void keyReleased(final KeyEvent e) {
-
-    }
-
-    @Override
-    public void mouseDragged(final MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseMoved(final MouseEvent e) {
-        x += (e.getX() - x) / 20;
-        y += (e.getY() - y) / 20;
-        repaint();
+    private class MyMouseMotionListener extends MouseMotionAdapter {
+        @Override
+        public void mouseMoved(final MouseEvent e) {
+            x += (e.getX() - x) / 20;
+            y += (e.getY() - y) / 20;
+            repaint();
+        }
     }
 }
