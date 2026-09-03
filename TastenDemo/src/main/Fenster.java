@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import static java.awt.event.KeyEvent.*;
 
 public class Fenster extends Frame implements KeyListener {
 
@@ -41,9 +42,13 @@ public class Fenster extends Frame implements KeyListener {
     @Override
     public void keyPressed(final KeyEvent e) {
 
-        if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-            dispose();
-        }
+       switch (e.getKeyCode()) {
+           case VK_ESCAPE -> dispose();
+           case VK_RIGHT -> x += 5;
+           case VK_LEFT -> x -= 5;
+           case VK_DOWN -> y += 5;
+           case VK_UP -> y -= 5;
+       }
 
         message = "Taste";
         repaint();
