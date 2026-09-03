@@ -3,19 +3,27 @@ package main;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 
 public class Linie extends Frame {
-    private int x1,y1,x2,y2;
+
+
+    private static final int SIZE =500;
+
+    private BufferedImage image = new BufferedImage(SIZE, SIZE, BufferedImage.TYPE_INT_RGB);
+
+
     public Linie()  {
-        x1 = x2 = y1= y2 = -1;
-        setSize(500,500);
+
+        setSize(SIZE,SIZE);
+        setResizable(false);
         addMouseListener(new MyMouseListener() );
         setVisible(true);
     }
 
     @Override
     public void paint(final Graphics g) {
-        g.drawLine(x1,y1,x2,y2);
+        g.drawImage(image, 0, 0, this);
     }
 
     public static void main(String[] args) {
@@ -23,7 +31,15 @@ public class Linie extends Frame {
     }
 
     private class MyMouseListener extends MouseAdapter {
-        public void mousePressed(MouseEvent e) {}
-        public void mouseReleased(MouseEvent e) {}
+        private int x,y;
+        public void mousePressed(MouseEvent e) {
+            x = e.getX();
+            y = e.getY();
+        }
+        public void mouseReleased(MouseEvent e) {
+            Graphics backBufferGraphics = image.getGraphics();
+            backBufferGraphics.drawLine(x,y,e.getX(),e.getY());
+            repaint();
+        }
     }
 }
