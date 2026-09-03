@@ -1,10 +1,10 @@
 package de.basf.container;
 
-public class Stapel {
+public class Stapel<T> {
 
     private static final int DEFAULT_SIZE = 10;
     private int index;
-    private int [] data;
+    private T [] data;
 
     public Stapel() {
         this(DEFAULT_SIZE);
@@ -12,17 +12,17 @@ public class Stapel {
 
     public Stapel(int size) {
         index =0;
-        data = new int [size>0?size:DEFAULT_SIZE];
+        data = (T []) new Object [size>0?size:DEFAULT_SIZE];
     }
 
-    public void push(int value) {
+    public void push(T  value) {
         if(isFull()) return;
         data[index++] = value;
     }
 
-    public int pop() {
+    public T pop() {
 
-        if(isEmpty()) return 0;
+        if(isEmpty()) return null;
         return data[--index];
     }
 
