@@ -1,12 +1,11 @@
 package main;
 
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
+
 import static java.awt.event.KeyEvent.*;
 
-public class Fenster extends Frame implements KeyListener {
+public class Fenster extends Frame implements KeyListener, MouseMotionListener {
 
     private static final int SIZE = 500;
     private String message = "Hallo";
@@ -20,6 +19,7 @@ public class Fenster extends Frame implements KeyListener {
     public Fenster() {
         x = y = SIZE /2;
         setSize(SIZE, SIZE);
+        addMouseMotionListener(this);
         addKeyListener(this);
         setVisible(true);
     }
@@ -57,5 +57,17 @@ public class Fenster extends Frame implements KeyListener {
     @Override
     public void keyReleased(final KeyEvent e) {
 
+    }
+
+    @Override
+    public void mouseDragged(final MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseMoved(final MouseEvent e) {
+        x += (e.getX() - x) / 20;
+        y += (e.getY() - y) / 20;
+        repaint();
     }
 }
